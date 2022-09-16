@@ -23,13 +23,33 @@ STATUS:
 
 const express = require('express');
 const app = express();
+const dbcon = require('./config/db-config');
+
+app.use(express.urlencoded({
+    extended: true,
+}));
+
+app.get("/", (req, res) => {
+    return res.render('cadastro-usuario')
+  });
+
+app.get("/login-usuario", (req, res) => {
+    return res.render('login-usuario')
+  });
+
+
+app.set('view engine', 'ejs');
+app.set('views', './src/views');
+
+app.use(express.static('public'));
 
 
 // INCLUI UM MIDDLEWARE PARA FAZER UM PARSER
 // DAS REQUISICOES COM JSON NO SEU BODY
 app.use(express.json());
 
-users = [];
+
+/*
 
 app.get('/', (req, res) => {
     return res.json({
@@ -59,7 +79,7 @@ app.delete('/users/:name', (req, res) => {
     users = users.filter(u => u.name !== name);
     return res.status(201);
 })
-
+*/
 const exercisesRouter = require('./receitas/routes');
 app.use('/exercicios', exercisesRouter);
 

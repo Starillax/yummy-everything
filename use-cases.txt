@@ -1,12 +1,12 @@
 1. (1,0) Organização do código e usabilidade do sistema quanto ao exercício
 proposto.
 
-2. (1,0) Cadastro de usuário na plataforma
+2. (1,0) Cadastro de usuário na plataforma // OK
 
 3. (2,0) Autenticação - Rotas de Criação / Update / Delete; Utilizando algum
 TOKEN / JWT / Builtin no caso de frameworks no cabeçalho das requisições.
-a. (1,0) Verificação do email/senha e geração do token
-b. (1,0) Proteção das rotas
+a. (1,0) Verificação do email/senha e geração do token // OK
+b. (1,0) Proteção das rotas // OK
 
 
 4. (2,0) Create - Criar um recurso a partir de uma requisição do tipo POST
