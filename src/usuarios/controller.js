@@ -16,7 +16,7 @@ class UsuariosController {
 
         const checaUsuario = await Usuario.findOne({
             where: {
-                email: req.body.email
+                email
             }
         });
 
@@ -31,20 +31,11 @@ class UsuariosController {
             senha     
         }  
         const userToDB = await Usuario.create(user);
-
-        // RESPOSTA
-        return res.redirect('/login-usuario');
+        return res.status(201).json(userToDB);
     } else {
-        const msg = {};
-        msg.titulo = "E-mail em uso!";
-        msg.mensagem = "Esse e-mail já está cadastrado no sistema";
-        return res.render('cadastro-usuario', {msg});
+        return res.status(400).json({ msg: "Esse e-mail já está cadastrado no sistema"});
     }
 }
-
-    async renderCreate(req, res) {
-        return res.render('cadastro-usuario');
-    }
 
     async auth(req, res) {
         const { email, senha } = req.body;
@@ -56,10 +47,7 @@ class UsuariosController {
         });
 
         if (!user) {
-            const msg = {};
-            msg.titulo = "E-mail ou senha inválidos";
-            msg.mensagem = "E-mail ou senha inválidos";
-            return res.render('login-usuario', {msg});
+            return res.status(400).json({ msg: "E-mail ou senha inválidos"});
         }
         console.log(user);
 
@@ -69,15 +57,8 @@ class UsuariosController {
         const meuJwt = jwt.sign(user.dataValues, 'SECRET NAO PODERIA ESTAR HARDCODED')
         return res.json(meuJwt);
         } else {
-            const msg = {};
-            msg.titulo = "E-mail ou senha inválidos";
-            msg.mensagem = "E-mail ou senha inválidos";
-            return res.render('login-usuario', {msg});
+            return res.status(400).json({ msg: "E-mail ou senha inválidos"});
         }
-    }
-
-    async renderAuth(req, res) {
-        return res.render('login-usuario');
     }
 
     async list(req, res) {

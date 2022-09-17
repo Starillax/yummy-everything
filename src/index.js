@@ -24,39 +24,34 @@ STATUS:
 const express = require('express');
 const app = express();
 const dbcon = require('./config/db-config');
+// INCLUI UM MIDDLEWARE PARA FAZER UM PARSER
+// DAS REQUISICOES COM JSON NO SEU BODY
+app.use(express.json());
 
 app.use(express.urlencoded({
     extended: true,
 }));
 
-app.get("/", (req, res) => {
-    return res.render('cadastro-usuario')
-  });
+app.get('/', (req, res) => {
+    res.send(`<form method="POST" action="/usuarios/">
+    <input type="text" name="nome"/>
+    <input type="text" name="email"/>
+    <input type="text" name="senha"/>
+    <input type="submit"/>
+  </form>`);
+});
 
-app.get("/login-usuario", (req, res) => {
-    return res.render('login-usuario')
-  });
-
-
-app.set('view engine', 'ejs');
-app.set('views', './src/views');
-
-app.use(express.static('public'));
-
-
-// INCLUI UM MIDDLEWARE PARA FAZER UM PARSER
-// DAS REQUISICOES COM JSON NO SEU BODY
-app.use(express.json());
-
+app.get('/login', (req, res) => {
+    res.send(`<form method="POST" action="/usuarios/auth">
+    <input type="text" name="email"/>
+    <input type="text" name="senha"/>
+    <input type="submit"/>
+  </form>`);
+});
 
 /*
-
 app.get('/', (req, res) => {
     return res.json({
-        system: {
-            nome: "Vini",
-            version: '0.0.1-SNAPSHOT'
-        },
         users
     });
     console.log("nao chega aqui... ateh a ide sabe disso");
@@ -79,7 +74,15 @@ app.delete('/users/:name', (req, res) => {
     users = users.filter(u => u.name !== name);
     return res.status(201);
 })
+
+
+app.get('/', (req, res) => {
+    const usuarios = Usuario.findAndCountAll();
+    return res.json(usuarios);
+});
 */
+
+
 const exercisesRouter = require('./receitas/routes');
 app.use('/exercicios', exercisesRouter);
 
