@@ -12,7 +12,9 @@ class UsuariosController {
 
     async create(req, res) {
         // INPUT
-        const { email, nome } = req.body;
+        const { nome, email, senha } = req.body;
+
+        if(nome !== '' && email !== '' && senha !== '') {
 
         const checaUsuario = await Usuario.findOne({
             where: {
@@ -35,6 +37,9 @@ class UsuariosController {
     } else {
         return res.status(400).json({ msg: "Esse e-mail já está cadastrado no sistema"});
     }
+} else {
+    return res.status(400).json({ msg: "Algum campo está em branco."});
+}
 }
 
     async auth(req, res) {
