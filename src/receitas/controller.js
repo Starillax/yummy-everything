@@ -1,37 +1,52 @@
-// não está finalizado
-const ExerciciosRepository = require('./repositorio-sql');
+const ReceitasRepository = require('./repositorio-sql');
+const IngredientesRepository = require('./ingredientes-sql');
 const crypto = require('crypto');
 
-class ExerciciosController {
+class ReceitasController {
 
     constructor() {
-        this.repository = new ExerciciosRepository();
+        this.repository = new ReceitasRepository();
+        this.ingredientesRepository = new IngredientesRepository();
     }
 
     async create(req, res) {
-        console.log("CRIANDO UMA NOVA QUESTAO");
-        const ex = {  
+        console.log("CRIANDO UMA NOVA RECEITA");
+        const rcp = {  
             id: crypto.randomUUID(),
-            ...req.body,
-            disciplina: req.body.disciplina.toUpperCase()
+            nome: req.body.rcp.nome,
+            descricao: req.body.rcp.descricao,
+            modoDeFazer: req.body.rcp.modoDeFazer,
+            imagem: req.body.rcp.imagem,
+            usuarioEmail: req.user.email
         };
 
-        await this.repository.save(ex);
+        const ings = {  
+            ingredientes: req.body.ing.ingredientes
+        };
+
+        await this.repository.save(rcp);
+
+        for (let i = 0; i < ings.ingredientes.length; i++){
+
+            let ing = {
+                id_ingrediente: crypto.randomUUID(),
+                texto: ings.ingredientes[i].texto,
+                id_receita: rcp.id
+            }
+
+            await this.ingredientesRepository.save(ing);
+
+        }
         
         return res.json({
-            ex
+            rcp, ings
         });
-    }
-
-    async random(req, res) {
-        const disciplina = await this.repository.random();
-        return res.json(disciplina);
     }
 
     async list(req, res) {
         const disciplina = req.query.disciplina.toUpperCase();
         const listagem = await this.repository.list(disciplina);
-        console.log(listagem)
+        console.log(listagem);
         return res.json(listagem);
     }
 
@@ -43,4 +58,4 @@ class ExerciciosController {
 }
 
 
-module.exports = ExerciciosController;
+module.exports = ReceitasController;

@@ -31,24 +31,6 @@ app.use(express.json());
 app.use(express.urlencoded({
     extended: true,
 }));
-
-app.get('/', (req, res) => {
-    res.send(`<form method="POST" action="/usuarios/">
-    <input type="text" name="nome"/>
-    <input type="text" name="email"/>
-    <input type="text" name="senha"/>
-    <input type="submit"/>
-  </form>`);
-});
-
-app.get('/login', (req, res) => {
-    res.send(`<form method="POST" action="/usuarios/auth">
-    <input type="text" name="email"/>
-    <input type="text" name="senha"/>
-    <input type="submit"/>
-  </form>`);
-});
-
 /*
 app.get('/', (req, res) => {
     return res.json({
@@ -83,8 +65,8 @@ app.get('/', (req, res) => {
 */
 
 
-const exercisesRouter = require('./receitas/routes');
-app.use('/exercicios', exercisesRouter);
+const receitasRouter = require('./receitas/routes');
+app.use('/receitas', receitasRouter);
 
 const usuariosRouter = require('./usuarios/routes');
 app.use('/usuarios', usuariosRouter);

@@ -1,35 +1,23 @@
-const { Exercicio } = require('./model');
-const Sequelize = require ('sequelize');
+const { Receita } = require('./model');
+const Sequelize = require('sequelize');
 
-class ExerciciosRepository {
+class ReceitasRepository {
     constructor() {
     }
 
-    async save(ex) {
-        await Exercicio.create(ex);
-    }
-
-    async random() {
-        const ex = await Exercicio.findOne({
-            order: 
-                Sequelize.literal('random()')
-        })
-        return ex;
+    async save(rcp) {
+        await Receita.create(rcp);
     }
 
     async detail(id) {
-        const ex = await Exercicio.findByPk(id)
+        const ex = await Receita.findByPk(id)
         return ex;
     }
 
-    async list(disciplina) {
-        const listagem = await Exercicio.findAll({
-            where: { 
-                disciplina
-            }
-        })
+    async list() {
+        const listagem = await Receita.findAll();
         return listagem;
     }
 }
 
-module.exports = ExerciciosRepository;
+module.exports = ReceitasRepository;

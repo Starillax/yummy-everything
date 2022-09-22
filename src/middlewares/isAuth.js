@@ -1,11 +1,12 @@
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+
 
 const isAuth  = (req, res, next) => {
     
     // verifica se token existe
     const token = req.headers['authorization'];
     if (!token) {
-        return res.status(401).json({msg:  "missing authorization token"}); 
+        return res.status(401).json({msg: "missing authorization token"}); 
     }
 
     // validar o token

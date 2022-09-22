@@ -24,22 +24,22 @@ class UsuariosController {
 
         if(!checaUsuario) {
         // PROCESSAMENTO
-        const usuarioBody = req.body;
-        const senha = await bcrypt.hash(usuarioBody.senha, 10);
-        console.log(senha)
-        const user =  {
-            nome: usuarioBody.nome,
-            email: usuarioBody.email,
-            senha     
-        }  
-        const userToDB = await Usuario.create(user);
-        return res.status(201).json(userToDB);
+            const usuarioBody = req.body;
+            const senha = await bcrypt.hash(usuarioBody.senha, 10);
+            const user =  {
+                nome: usuarioBody.nome,
+                email: usuarioBody.email,
+                senha     
+            }  
+            const userToDB = await Usuario.create(user);
+            return res.status(201).json(userToDB);
+        } else {
+            return res.status(400).json({ msg: "Esse e-mail já está cadastrado no sistema"});
+        }
+
     } else {
-        return res.status(400).json({ msg: "Esse e-mail já está cadastrado no sistema"});
+        return res.status(400).json({ msg: "Algum campo está em branco."});
     }
-} else {
-    return res.status(400).json({ msg: "Algum campo está em branco."});
-}
 }
 
     async auth(req, res) {
@@ -54,12 +54,13 @@ class UsuariosController {
         if (!user) {
             return res.status(400).json({ msg: "E-mail ou senha inválidos"});
         }
-        console.log(user);
+      
 
         const checa = await bcrypt.compare(senha, user.senha);
 
         if(checa) {
-        const meuJwt = jwt.sign(user.dataValues, 'SECRET NAO PODERIA ESTAR HARDCODED')
+        const meuJwt = jwt.sign(user.dataValues, 'SECRET NAO PODERIA ESTAR HARDCODED');
+        console.log(req.user)
         return res.json(meuJwt);
         } else {
             return res.status(400).json({ msg: "E-mail ou senha inválidos"});

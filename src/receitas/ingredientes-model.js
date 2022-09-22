@@ -10,8 +10,7 @@ Ingrediente.init({
         type: DataTypes.STRING,
         primaryKey: true
     },
-    nome: DataTypes.STRING,
-    quantidade: DataTypes.STRING
+    texto: DataTypes.STRING
 }, { 
     sequelize: sequelizeCon, 
     modelName: 'ingrediente'

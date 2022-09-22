@@ -13,8 +13,8 @@ Receita.init({
     nome: DataTypes.STRING,
     descricao: DataTypes.STRING,
     modoDeFazer: DataTypes.STRING,
-    ingredientes_receita: DataTypes.JSON,
-    imagem: DataTypes.STRING
+    imagem: DataTypes.STRING,
+    usuarioEmail: DataTypes.STRING
 }, { 
     sequelize: sequelizeCon,
     modelName: 'receita'
