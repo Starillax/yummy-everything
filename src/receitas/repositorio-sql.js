@@ -13,7 +13,7 @@ class ReceitasRepository {
     async detail(id) {
         const rcp = await Receita.findByPk(id);
         const ings = await Ingrediente.findAll({ 
-            where: { id_receita: id }
+            where: { receitaId: id }
         });
 
         return {
@@ -28,8 +28,11 @@ class ReceitasRepository {
 
     async delete(id) {
         const rcp = await Receita.findByPk(id);
-        console.log(rcp)
-        await rcp.destroy();
+        if (rcp != null) {
+            await rcp.destroy();
+            return true;
+        }
+        return false;
     }
 }
 

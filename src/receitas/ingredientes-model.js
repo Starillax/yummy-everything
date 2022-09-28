@@ -6,7 +6,7 @@ const { Receita } = require('./model');
 class Ingrediente extends Model {}
     
 Ingrediente.init({
-    id_ingrediente: {
+    id: {
         type: DataTypes.STRING,
         primaryKey: true
     },
@@ -16,14 +16,15 @@ Ingrediente.init({
     modelName: 'ingrediente'
 });
 
+Receita.hasMany(Ingrediente, 
+    {
+        foreignKey: 'receitaId',
+        onDelete: 'CASCADE'
+    });
+
 Ingrediente.belongsTo(Receita,
 {
-    foreignKey: 'id_receita'
-});
-
-Receita.hasMany(Ingrediente, 
-{
-    foreignKey: 'id_receita',
+    foreignKey: 'receitaId',
     onDelete: 'CASCADE'
 });
 

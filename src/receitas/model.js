@@ -11,18 +11,23 @@ Receita.init({
         primaryKey: true
     },
     nome: DataTypes.STRING,
-    descricao: DataTypes.STRING,
-    modoDeFazer: DataTypes.STRING,
-    imagem: DataTypes.STRING,
+    descricao: DataTypes.STRING(512),
+    modoDeFazer: DataTypes.STRING(1024),
+    imagem: DataTypes.STRING(1024),
     usuarioEmail: DataTypes.STRING
 }, { 
     sequelize: sequelizeCon,
     modelName: 'receita'
 });
 
-Receita.belongsTo(Usuario);
-
 Usuario.hasMany(Receita, {
+    foreignKey: 'usuarioEmail',
+    onDelete: 'CASCADE'
+});
+
+Receita.belongsTo(Usuario, 
+{
+    foreignKey: 'usuarioEmail',
     onDelete: 'CASCADE'
 });
 

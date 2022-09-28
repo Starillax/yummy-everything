@@ -23,7 +23,10 @@ STATUS:
 
 const express = require('express');
 const app = express();
+<<<<<<< HEAD
 const dbcon = require('./config/db-config');
+=======
+>>>>>>> master
 
 app.use(express.json());
 

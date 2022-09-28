@@ -10,5 +10,7 @@ router.post('/', (req, res) => controller.create(req, res));
 router.post('/auth', (req, res) => controller.auth(req, res));
 router.get('/list', (req, res) => controller.list(req, res));
 router.get('/profile', isAuth, (req, res) => controller.profile(req, res));
+router.put('/updateAccount', isAuth, (req, res) => controller.update(req, res));
+router.delete('/deleteAccount', isAuth, (req, res) => controller.delete(req, res));
 
 module.exports = router;
