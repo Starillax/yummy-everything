@@ -23,7 +23,8 @@ Ingrediente.belongsTo(Receita,
 
 Receita.hasMany(Ingrediente, 
 {
-    foreignKey: 'id_receita'
+    foreignKey: 'id_receita',
+    onDelete: 'CASCADE'
 });
 
 sequelizeCon.sync();

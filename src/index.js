@@ -24,46 +24,8 @@ STATUS:
 const express = require('express');
 const app = express();
 const dbcon = require('./config/db-config');
-// INCLUI UM MIDDLEWARE PARA FAZER UM PARSER
-// DAS REQUISICOES COM JSON NO SEU BODY
+
 app.use(express.json());
-
-app.use(express.urlencoded({
-    extended: true,
-}));
-/*
-app.get('/', (req, res) => {
-    return res.json({
-        users
-    });
-    console.log("nao chega aqui... ateh a ide sabe disso");
-});
-
-app.post('/users', (req, res) => {
-    console.log("No server...");
-    console.log({ body: req.body })
-    const newUser = {
-        timestamp: new Date(),
-        ...req.body, // DESESTRUTURAÇÃO - CONSISTE EM DESMONTAR O MEU OBJ
-    };
-    users.push(newUser);
-    return res.json(newUser)
-});
-
-
-app.delete('/users/:name', (req, res) => {
-    const { name } = req.params;
-    users = users.filter(u => u.name !== name);
-    return res.status(201);
-})
-
-
-app.get('/', (req, res) => {
-    const usuarios = Usuario.findAndCountAll();
-    return res.json(usuarios);
-});
-*/
-
 
 const receitasRouter = require('./receitas/routes');
 app.use('/receitas', receitasRouter);

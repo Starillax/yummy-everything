@@ -22,7 +22,9 @@ Receita.init({
 
 Receita.belongsTo(Usuario);
 
-Usuario.hasMany(Receita);
+Usuario.hasMany(Receita, {
+    onDelete: 'CASCADE'
+});
 
 
 module.exports = { Receita };

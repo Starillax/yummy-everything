@@ -15,14 +15,14 @@ a. (1,0) Recurso Principal
 b. (1,0) Recursos associados 1:N
 
 
-5. (2,0) Read - Listar recursos através do método GET
+5. (2,0) Read - Listar recursos através do método GET // OK
 a. (1,0) Listar todos - sem detalhes 1:N
 b. (1,0) Listar pelo ID com detalhes 1:N, retornando erro caso o ID não
 exista
 
 
 6. (1,0) Update - Atualizar um recurso através do ID com o método PUT,
-retornando o novo elemento, erro caso o ID
+retornando o novo elemento, erro caso o ID não exista
 a. (0,5) - Recurso principal Utilizar o cascade para remover
 automaticamente as relações.
 b. (0,5) - Recurso associado

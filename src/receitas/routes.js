@@ -8,5 +8,6 @@ const controller = new ReceitasController();
 router.post('/', isAuth, (req, res) => controller.create(req, res));
 router.get('/list', (req, res) => controller.list(req, res));
 router.get('/:id', (req, res) => controller.detail(req, res));
+router.delete('/:id', (req, res) => controller.delete(req, res));
 
 module.exports = router;

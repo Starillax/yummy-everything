@@ -44,16 +44,28 @@ class ReceitasController {
     }
 
     async list(req, res) {
-        const disciplina = req.query.disciplina.toUpperCase();
-        const listagem = await this.repository.list(disciplina);
+        //const receita = req.query.receita.toUpperCase();
+        const listagem = await this.repository.list();
         console.log(listagem);
         return res.json(listagem);
     }
 
     async detail(req, res) {
         const { id } = req.params;
-        const exercicio = await this.repository.detail(id);
-        return res.json(exercicio);
+        const receita = await this.repository.detail(id);
+        if(!receita.rcp || !receita.ings) {
+            return res.status(404).json({ msg: "Esse ID não existe."});
+        }
+        return res.json(receita);
+    }
+
+    async delete(req, res) {
+        const { id } = req.params;
+        const receita = await this.repository.delete(id);
+        if(!receita.rcp || !receita.ings) {
+            return res.status(404).json({ msg: "Esse ID não existe."});
+        }
+        return res.status(200);
     }
 }
 
