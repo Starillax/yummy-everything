@@ -16,8 +16,4 @@ Usuario.init({
     modelName: 'usuario'
 });
 
-<<<<<<< HEAD
-
-=======
->>>>>>> master
 module.exports = { Usuario };

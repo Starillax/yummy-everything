@@ -23,10 +23,6 @@ STATUS:
 
 const express = require('express');
 const app = express();
-<<<<<<< HEAD
-const dbcon = require('./config/db-config');
-=======
->>>>>>> master
 
 app.use(express.json());
 
@@ -35,5 +31,8 @@ app.use('/receitas', receitasRouter);
 
 const usuariosRouter = require('./usuarios/routes');
 app.use('/usuarios', usuariosRouter);
+
+const ingredientesRouter = require('./ingredientes/routes');
+app.use('/ingredientes', ingredientesRouter);
 
 app.listen(3000, () => console.log("Listening at 3000"));

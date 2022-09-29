@@ -1,7 +1,7 @@
 const { DataTypes, Model } = require('sequelize');
 
 const { sequelizeCon } = require('../config/db-config');
-const { Receita } = require('./model');
+const { Receita } = require('../receitas/model');
 
 class Ingrediente extends Model {}
     
@@ -24,8 +24,7 @@ Receita.hasMany(Ingrediente,
 
 Ingrediente.belongsTo(Receita,
 {
-    foreignKey: 'receitaId',
-    onDelete: 'CASCADE'
+    foreignKey: 'receitaId'
 });
 
 sequelizeCon.sync();

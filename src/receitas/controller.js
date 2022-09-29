@@ -1,5 +1,5 @@
 const ReceitasRepository = require('./repositorio-sql');
-const IngredientesRepository = require('./ingredientes-sql');
+const IngredientesRepository = require('../ingredientes/repositorio-sql');
 const crypto = require('crypto');
 
 class ReceitasController {
@@ -10,7 +10,6 @@ class ReceitasController {
     }
 
     async create(req, res) {
-        console.log("CRIANDO UMA NOVA RECEITA");
         const rcp = {  
             id: crypto.randomUUID(),
             nome: req.body.rcp.nome,
@@ -26,12 +25,14 @@ class ReceitasController {
 
         await this.repository.save(rcp);
 
-        for (let i = 0; i < ings.ingredientes.length; i++){
+        console.log(ings);
 
+        for (let i = 0; i < ings.ingredientes.length; i++) {
+            console.log(crypto.randomUUID());
             let ing = {
-                id_ingrediente: crypto.randomUUID(),
+                id: crypto.randomUUID(),
                 texto: ings.ingredientes[i].texto,
-                id_receita: rcp.id
+                receitaId: rcp.id
             }
 
             await this.ingredientesRepository.save(ing);
@@ -63,38 +64,66 @@ class ReceitasController {
 
         const { id } = req.params;
         const query = await this.repository.detail(id);
-        const antigaReceita = query.rcp; 
+        const receita = query.rcp;
 
-        if (!query) {
-            return res.status(400).json({ msg: "ID inválido"});
+        if (!receita) {
+            return res.status(400).json({ msg: "ID inválido" });
+        } else if (receita.usuarioEmail != req.user.email) {
+            return res.status(401).json({ msg: "Você não tem permissão para alterar essa receita" });
+        } else {
+            console.log(id);
+            await this.repository.deleteIngsFromRcp(id);
+
+            receita.set({
+                nome: req.body.rcp.nome,
+                descricao: req.body.rcp.descricao,
+                modoDeFazer: req.body.rcp.modoDeFazer,
+                imagem: req.body.rcp.imagem
+            });
+
+            await receita.save();
+
+            const ings = {  
+                ingredientes: req.body.ing.ingredientes
+            };
+
+            let ingredientes = [];
+
+            for (let i = 0; i < ings.ingredientes.length; i++){
+
+                let ing = {
+                    id: crypto.randomUUID(),
+                    texto: ings.ingredientes[i].texto,
+                    receitaId: id
+                }
+    
+                await this.ingredientesRepository.save(ing);
+
+                ingredientes.push(ing);
+    
+            }
+
+            return res.status(200).json({
+                receita, ingredientes
+            });
         }
-
-        const novaReceita = {
-            nome: req.body.nome,
-            descricao: req.body.descricao,
-            modoDeFazer: req.body.modoDeFazer,
-            imagem: req.body.imagem,
-            usuarioEmail: req.user.email
-        };
-
-        await this.repository.save(rcp);
         
-        return res.json({
-            rcp, ings
-        });
     }
 
     async delete(req, res) {
         const { id } = req.params;
-        const receita = await this.repository.delete(id);
-        console.log(receita);
-        if (receita === false) {
-            return res.status(404).json({ msg: "Esse ID não existe."});
-        } else if (receita === true) {
-            return res.status(200).json({ msg: "Receita deletada com sucesso"});
+        const query = await this.repository.detail(id);
+        const receita = query.rcp;
+
+        if (!query.rcp) {
+            return res.status(400).json({ msg: "ID inválido"});
+        } else if (receita.usuarioEmail != req.user.email) {
+            return res.status(401).json({ msg: "Você não tem permissão para deletar essa receita" });
+        } else {
+            await this.repository.delete(id);
+            return res.status(200).json('');
         }
     }
 }
-
 
 module.exports = ReceitasController;

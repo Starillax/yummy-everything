@@ -1,5 +1,5 @@
 const { Receita } = require('./model');
-const { Ingrediente } = require('./ingredientes-model');
+const { Ingrediente } = require('../ingredientes/model');
 const Sequelize = require('sequelize');
 
 class ReceitasRepository {
@@ -28,11 +28,33 @@ class ReceitasRepository {
 
     async delete(id) {
         const rcp = await Receita.findByPk(id);
-        if (rcp != null) {
-            await rcp.destroy();
-            return true;
+        const ings = await Ingrediente.findAll({
+            where: {
+                receitaId: id
+            }
+        });
+        
+        for (let i = 0; i < ings.length; i++) {
+            await ings[i].destroy();
         }
-        return false;
+        
+        await rcp.destroy();
+
+        return true;
+    }
+
+    async deleteIngsFromRcp(rcp) {
+        const ings = await Ingrediente.findAll({
+            where: {
+                receitaId: rcp
+            }
+        });
+
+        for (let i = 0; i < ings.length; i++) {
+            await ings[i].destroy();
+        }
+
+        return true;
     }
 }
 

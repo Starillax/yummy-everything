@@ -1,4 +1,4 @@
-const { Ingrediente } = require('./ingredientes-model');
+const { Ingrediente } = require('./model');
 const Sequelize = require('sequelize');
 
 class IngredientesRepository {
@@ -7,6 +7,14 @@ class IngredientesRepository {
 
     async save(ing) {
         await Ingrediente.create(ing);
+    }
+
+    async detail(id) {
+        const ing = await Ingrediente.findByPk(id);
+
+        return {
+            ing
+        }
     }
 
 }

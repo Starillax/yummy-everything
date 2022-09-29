@@ -9,8 +9,6 @@ const sequelizeCon = new Sequelize('postgres://lebtqfsdwiinxm:d2314938b24cb88837
     },
 });
 
-<<<<<<< HEAD
-=======
 sequelizeCon
   .authenticate()
   .then(() => {
@@ -20,5 +18,4 @@ sequelizeCon
     console.log('Unable to connect to the database:', err);
 });
 
->>>>>>> master
 module.exports = { sequelizeCon };

@@ -1,5 +1,5 @@
 const { Usuario } = require('./model');
-const { Resposta } = require('../receitas/ingredientes-model');
+const { Resposta } = require('../ingredientes/model');
 //const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -11,7 +11,6 @@ class UsuariosController {
     }
 
     async create(req, res) {
-        // INPUT
         const { nome, email, senha } = req.body;
 
         if(nome !== '' && email !== '' && senha !== '') {
@@ -23,7 +22,6 @@ class UsuariosController {
         });
 
         if(!checaUsuario) {
-        // PROCESSAMENTO
             const usuarioBody = req.body;
             const senha = await bcrypt.hash(usuarioBody.senha, 10);
             const user =  {
@@ -58,8 +56,8 @@ class UsuariosController {
         const checa = await bcrypt.compare(senha, user.senha);
 
         if (checa) {
-        const meuJwt = jwt.sign(user.dataValues, 'SECRET NAO PODERIA ESTAR HARDCODED');
-        console.log(req.user)
+        const meuJwt = jwt.sign(user.dataValues, 'Secret não poderia estar hardcoded');
+
         return res.json(meuJwt);
         } else {
             return res.status(400).json({ msg: "E-mail ou senha inválidos"});
@@ -69,10 +67,6 @@ class UsuariosController {
     async list(req, res) {
         const users = await Usuario.findAndCountAll();
         res.json(users);
-    }
-
-    async profile(req, res) {
-        res.json({ user: req.user});
     }
 
     async update(req, res) {
@@ -113,15 +107,14 @@ class UsuariosController {
     async delete(req, res) {
         const email = req.user.email;
         const user = await Usuario.findByPk(email);
-        console.log(user);
+
         if (user != null) {
             await user.destroy();
-            return res.status(200).json({ msg: "Conta deletada com sucesso"});
+            return res.status(200).json({ msg: "Conta deletada com sucesso" });
         } else {
-            return res.status(404).json({ msg: "Esse e-mail não está cadastrado."});
+            return res.status(404).json({ msg: "Esse e-mail não está cadastrado." });
         }
     }
-
 }
 
 

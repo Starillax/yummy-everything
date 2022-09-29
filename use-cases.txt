@@ -1,5 +1,5 @@
 1. (1,0) Organização do código e usabilidade do sistema quanto ao exercício
-proposto.
+proposto. // Discutível
 
 2. (1,0) Cadastro de usuário na plataforma // OK
 
@@ -22,14 +22,14 @@ exista
 
 
 6. (1,0) Update - Atualizar um recurso através do ID com o método PUT,
-retornando o novo elemento, erro caso o ID não exista
+retornando o novo elemento, erro caso o ID não exista // OK
 a. (0,5) - Recurso principal Utilizar o cascade para remover
 automaticamente as relações.
 b. (0,5) - Recurso associado
 
 
 7. (1,0) DELETE - Deletar um recurso pelo ID através do método DELETE
-retornando uma resposta vazia. Erro caso o ID não exista;
+retornando uma resposta vazia. Erro caso o ID não exista; // OK
 a. (0,5) - Recurso principal Utilizar o cascade para remover
 automaticamente as relações.
 b. (0,5) - Recurso associado

@@ -27,8 +27,7 @@ Usuario.hasMany(Receita, {
 
 Receita.belongsTo(Usuario, 
 {
-    foreignKey: 'usuarioEmail',
-    onDelete: 'CASCADE'
+    foreignKey: 'usuarioEmail'
 });
 
 
